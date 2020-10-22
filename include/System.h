@@ -122,7 +122,6 @@ public:
     std::vector<MapPoint*> GetTrackedMapPoints();
     std::vector<cv::KeyPoint> GetTrackedKeyPointsUn();
 
-    void Refresh();
 private:
 
     // Input sensor

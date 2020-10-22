@@ -27,10 +27,10 @@
 #include "Optimizer.h"
 
 #include "ORBmatcher.h"
-#include <unistd.h>
 
 #include<mutex>
 #include<thread>
+#include <unistd.h>
 
 
 namespace ORB_SLAM2
@@ -774,4 +774,4 @@ bool LoopClosing::isFinished()
 }
 
 
-} //namespace ORB_SLAM
+} //namespace ORB_SLAM 
