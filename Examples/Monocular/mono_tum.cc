@@ -61,13 +61,16 @@ int main(int argc, char **argv)
     cout << "Images in the sequence: " << nImages << endl << endl;
 
     // Main loop
+    int main_error = 0;
+    std::thread runthread([&]() {  // Start in new thread
+
     cv::Mat im;
     for(int ni=0; ni<nImages; ni++)
     {
         // Read image from file
         im = cv::imread(string(argv[3])+"/"+vstrImageFilenames[ni],CV_LOAD_IMAGE_UNCHANGED);
         double tframe = vTimestamps[ni];
-
+        cout << "image:" << ni << "/" << nImages << "\n";
         if(im.empty())
         {
             cerr << endl << "Failed to load image at: "
@@ -104,7 +107,17 @@ int main(int argc, char **argv)
         if(ttrack<T)
             usleep((T-ttrack)*1e6);
     }
+    // SLAM.Shutdown();
+    }); // End the thread
 
+    // Start the visualization thread
+    SLAM.StartViewer();
+
+    cout << "Viewer started, waiting for thread." << endl;
+    runthread.join();
+    if (main_error != 0)
+        return main_error;
+    cout << "Tracking thread joined..." << endl;
     // Stop all threads
     SLAM.Shutdown();
 
